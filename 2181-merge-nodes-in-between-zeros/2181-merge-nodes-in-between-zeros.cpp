@@ -11,23 +11,30 @@
 class Solution {
 public:
     ListNode* mergeNodes(ListNode* head) {
-        ListNode *newHead = new ListNode();
-        ListNode *temp = head->next;
-        ListNode *newTemp = newHead;
+        ListNode *slow, *fast;
+        slow = head;
+        fast = head->next;
         int sum = 0;
-        while(temp!=NULL){
-            if(temp->val==0){
-                ListNode *node = new ListNode(sum);
-                newTemp->next = node;
-                newTemp = newTemp->next;
-                temp = temp->next;
-                sum=0;
+        while(fast!=NULL){
+            if(fast->val==0){
+                slow->val = sum;
+                slow->next = fast;
+                if(fast->next==NULL){
+                    slow->next = NULL;
+                }
+                slow = fast;
+                fast = fast->next;
+                sum = 0;
+                // cout << slow->val << " " << head->val << " " << sum << " ";
             }
             else{
-                sum = sum + temp->val;
-                temp = temp->next;
+                sum = sum + fast->val;
+                fast = fast->next;
+                // cout << "#";
             }
+            // cout << sum << " ";
         }
-        return newHead->next;
+        
+        return head;
     }
 };
